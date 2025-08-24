@@ -268,6 +268,17 @@ button {
     }
   }
 }
+.aboutUs {
+  padding: 50px 0;
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  .title {
+    font-size: 38px;
+    font-weight: bold;
+    margin-bottom: 30px;
+  }
+}
 .footer {
   background-color: #000000;
   color: white;

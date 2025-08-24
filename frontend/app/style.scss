@@ -158,6 +158,10 @@ button {
         overflow: hidden;
         -webkit-box-shadow: 8px 8px 25px 0px rgba(51, 51, 51, 0.5);
         box-shadow: 8px 8px 25px 0px rgba(51, 51, 51, 0.5);
+        &:hover {
+          box-shadow: none;
+          transition: all 0.3s ease-in-out;
+        }
       }
     }
     .product-info {
@@ -238,6 +242,29 @@ button {
       font-size: 24px;
       font-weight: bold;
       margin-bottom: 30px;
+    }
+  }
+}
+.shop {
+  background-color: #000000;
+  height: 400px;
+  .hero-text {
+    color: white;
+    width: 100%;
+    height: calc(100% - 64px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .title {
+      text-align: center;
+      color: $color-primary;
+      font-size: 48px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      & + p {
+        max-width: 570px;
+      }
     }
   }
 }

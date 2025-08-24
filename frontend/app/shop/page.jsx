@@ -39,13 +39,13 @@ export default function DashboardPage() {
         <div className='menu cont-center'>
           <ul className='nav-left'>
             <li>
-              <a href='/'>HOME</a>
+              <a href=''>HOME</a>
             </li>
             <li>
               <a href='/shop'>SHOP</a>
             </li>
             <li>
-              <a href='/'>CONTACT</a>
+              <a href=''>CONTACT</a>
             </li>
             <li>
               <a href='/aboutUs'>ABOUT US</a>

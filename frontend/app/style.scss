@@ -1,0 +1,255 @@
+//reset CSS
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+button {
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: none;
+  color: inherit;
+  font: inherit;
+  line-height: normal;
+  overflow: visible;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+// variables
+$color-primary: #ffbf00;
+
+//buttons
+button {
+  &.long {
+    font-weight: bold;
+    border: none;
+    border-radius: 10px;
+    padding: 8px 14px;
+    &.primary {
+      background-color: $color-primary;
+    }
+  }
+}
+
+// common styles
+.cont-center {
+  max-width: 1150px;
+  margin: 0 auto;
+  padding: 0 30px;
+}
+.ex-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+  &:hover {
+    font-weight: bold;
+  }
+}
+
+.sign-up {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+  gap: 14px;
+
+  .sign-up-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 240px;
+    input {
+      border-radius: 10px;
+      padding: 8px 14px;
+      border: 1px solid #ccc;
+      &:focus {
+        outline-color: #999;
+      }
+    }
+  }
+}
+
+.home {
+  background-image: url('/bg_main.png');
+  height: 100vh;
+  background-size: cover;
+}
+
+.menu {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 30px;
+
+  .nav-left {
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+}
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  // margin: -110px;
+  .hero-title {
+    color: $color-primary;
+    font-size: 80px;
+    text-align: center;
+    font-weight: bold;
+  }
+}
+
+.best-sellers {
+  margin-bottom: 50px;
+  .best-sellers-text {
+    display: flex;
+    justify-content: space-between;
+    gap: 250px;
+  }
+
+  .best-seller-products {
+    margin-top: 50px;
+
+    ul {
+      display: flex;
+      justify-content: space-between;
+      gap: 30px;
+      .product-set {
+        border-radius: 25px;
+        overflow: hidden;
+        -webkit-box-shadow: 8px 8px 25px 0px rgba(51, 51, 51, 0.5);
+        box-shadow: 8px 8px 25px 0px rgba(51, 51, 51, 0.5);
+      }
+    }
+    .product-info {
+      background-color: #333333;
+      color: white;
+      padding: 16px 20px;
+      .name {
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+      .amount {
+        margin-top: 10px;
+      }
+      .price {
+        font-weight: bold;
+        margin-top: 10px;
+      }
+    }
+  }
+}
+.about {
+  background-image: url('/bg_about.png');
+  height: 100vh;
+  background-size: cover;
+  color: white;
+  padding-top: 54px;
+  padding-left: 160px;
+
+  .content {
+    width: 400px;
+  }
+  .section-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 310px;
+  }
+  .paco {
+    margin-bottom: 30px;
+    font-size: 18px;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+}
+.ability {
+  padding-top: 50px;
+  padding-bottom: 100px;
+  .flex {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+    margin-bottom: 50px;
+    .factor {
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+  }
+}
+.wholesale {
+  background-color: #000000;
+  color: white;
+  padding: 50px 0;
+
+  .cont-center {
+    display: flex;
+    justify-content: space-between;
+    gap: 100px;
+  }
+  .wholesale-text {
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .section-title {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 30px;
+    }
+  }
+}
+.footer {
+  background-color: #000000;
+  color: white;
+  padding: 30px 0 100px 0;
+  display: flex;
+  justify-content: center;
+  gap: 60px;
+  p {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  li {
+    a {
+      line-height: 1.5;
+      &:hover {
+        text-decoration: underline;
+        text-underline-offset: 4px;
+      }
+    }
+  }
+}

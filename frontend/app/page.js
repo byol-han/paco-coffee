@@ -1,52 +1,50 @@
 'use client';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
-import { useEffect, useState } from 'react';
-import { getUsers, createUser } from '../lib/api';
+export default function Login() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const router = useRouter();
 
-export default function HomePage() {
-  const [users, setUsers] = useState([]);
-  const [form, setForm] = useState({ email: '', password: '' });
-
-  useEffect(() => {
-    getUsers().then((res) => setUsers(res.data));
-  }, []);
-
-  const handleSubmit = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    await createUser(form);
-    const res = await getUsers();
-    setUsers(res.data);
-    setForm({ email: '', password: '' });
-    alert('User created successfully!');
-    window.location.href = '/login';
+    const res = await fetch('http://localhost:5001/api/auth/login', {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password }),
+    });
+    if (res.ok) {
+      router.push('/dashboard');
+    } else {
+      alert(data.message || 'Login failed');
+      console.log('Login error:', data);
+    }
   };
 
   return (
-    <main className='sign-up'>
-      <h1>PACO COFFEE</h1>
-      <form onSubmit={handleSubmit} className='sign-up-form'>
+    <div className='sign-up'>
+      <h1>LOGIN</h1>
+      <form className='sign-up-form'>
         <input
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           placeholder='Email'
-          value={form.email}
-          onChange={(e) => setForm({ ...form, email: e.target.value })}
         />
         <input
-          placeholder='Password'
           type='password'
-          value={form.password}
-          onChange={(e) => setForm({ ...form, password: e.target.value })}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder='Password'
         />
-        <button type='submit' className='long primary'>
-          REGISTER
+        <button type='button' onClick={handleLogin} className='long primary'>
+          LOGIN
         </button>
+        <a href='/register' className='btn-register'>
+          REGISTER
+        </a>
       </form>
-      {/* <ul>
-       {users.map((u) => (
-         <li key={u._id}>
-           {u.email} - {u.password}
-         </li>
-       ))}
-     </ul> */}
-    </main>
+    </div>
   );
 }

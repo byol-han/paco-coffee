@@ -301,3 +301,16 @@ button {
     }
   }
 }
+.quantity-control {
+  display: flex;
+  gap: 20px;
+  font-size: 20px;
+  padding: 20px 0;
+}
+.detail-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 50px;
+  padding: 100px 0;
+}

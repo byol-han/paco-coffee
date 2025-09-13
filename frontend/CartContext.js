@@ -1,32 +1,62 @@
-// CartContext.js
-import { createContext, useContext, useState } from 'react';
+'use client';
+import { createContext, useContext, useState, useEffect } from 'react';
 
 const CartContext = createContext();
 
 export function CartProvider({ children }) {
   const [cart, setCart] = useState([]);
 
-  const addToCart = (item) => {
-    setCart((prev) => {
-      // 이미 장바구니에 있는 상품이면 수량만 증가
-      const existing = prev.find((i) => i.name === item.name);
-      if (existing) {
-        return prev.map((i) =>
-          i.name === item.name
-            ? { ...i, quantity: i.quantity + item.quantity }
-            : i
-        );
+  // 앱 시작 시 백엔드에서 장바구니 불러오기
+  useEffect(() => {
+    const fetchCart = async () => {
+      try {
+        const res = await fetch('http://localhost:5001/api/cart', {
+          method: 'GET',
+          credentials: 'include',
+        });
+        if (res.ok) {
+          const data = await res.json();
+          setCart(data.items || []);
+        }
+      } catch (err) {
+        console.error('Failed to fetch cart:', err);
       }
-      return [...prev, item];
-    });
+    };
+    fetchCart();
+  }, []);
+
+  // 장바구니 업데이트
+  const addToCart = async (item) => {
+    try {
+      const res = await fetch('http://localhost:5001/api/cart', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(item),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setCart(data.items);
+      }
+    } catch (err) {
+      console.error('Add to cart failed:', err);
+    }
   };
 
-  const removeFromCart = (name) => {
-    setCart((prev) => prev.filter((i) => i.name !== name));
+  const clearCart = async () => {
+    try {
+      const res = await fetch('http://localhost:5001/api/cart', {
+        method: 'DELETE',
+        credentials: 'include',
+      });
+      if (res.ok) setCart([]);
+    } catch (err) {
+      console.error('Clear cart failed:', err);
+    }
   };
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart }}>
+    <CartContext.Provider value={{ cart, addToCart, clearCart }}>
       {children}
     </CartContext.Provider>
   );

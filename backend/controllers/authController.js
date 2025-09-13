@@ -58,6 +58,12 @@ exports.login = async (req, res) => {
 exports.logout = (req, res) => {
   res.clearCookie('token').json({ message: 'Logged out' });
 };
-exports.getMe = (req, res) => {
-  res.json(req.user);
+exports.getMe = async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select('-password'); // 패스워드는 제외
+    if (!user) return res.status(404).json({ message: 'User not found' });
+    res.json(user); // 이메일, 이름 등 반환
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 };

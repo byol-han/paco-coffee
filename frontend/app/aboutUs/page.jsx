@@ -52,7 +52,7 @@ export default function AboutUsPage() {
             </li>
           </ul>
           <div className='nav-right'>
-            <button onClick={() => router.push('/login')}>
+            <button onClick={() => router.push('')}>
               <img src='/login.svg' alt='login' />
             </button>
             <button onClick={() => router.push('/cart')}>

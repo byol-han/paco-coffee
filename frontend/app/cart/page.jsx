@@ -1,7 +1,9 @@
 'use client';
+import { useRouter } from 'next/navigation';
 import { useCart } from '../../CartContext';
 
 export default function CartPage() {
+  const router = useRouter();
   const { cart, removeFromCart } = useCart();
   const handleLogout = async () => {
     await fetch('http://localhost:5001/api/auth/logout', {
@@ -29,7 +31,7 @@ export default function CartPage() {
             </li>
           </ul>
           <div className='nav-right'>
-            <button onClick={() => router.push('/login')}>
+            <button onClick={() => router.push('')}>
               <img src='/login.svg' alt='login' />
             </button>
             <button onClick={() => router.push('/cart')}>
@@ -55,8 +57,11 @@ export default function CartPage() {
         ) : (
           <ul>
             {cart.map((item, index) => (
-              <li key={index} style={{ marginBottom: '10px' }}>
-                {item.name} - {item.quantity} x {item.price} AED
+              <li key={index} className='cart-items'>
+                <img src='/coffee.png' alt='coffee' />
+                <div>
+                  {item.name} - {item.quantity} x {item.price} AED
+                </div>
                 <button
                   className='long primary'
                   onClick={() => removeFromCart(item.name)}

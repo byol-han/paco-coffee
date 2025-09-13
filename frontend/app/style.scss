@@ -314,3 +314,11 @@ button {
   gap: 50px;
   padding: 100px 0;
 }
+.cart-items {
+  display: flex;
+  gap: 50px;
+  img {
+    width: 150px;
+    height: 150px;
+  }
+}

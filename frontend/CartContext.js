@@ -56,12 +56,28 @@ export function CartProvider({ children }) {
   };
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, clearCart }}>
+    <CartContext.Provider
+      value={{ cart, addToCart, clearCart, removeFromCart }}
+    >
       {children}
     </CartContext.Provider>
   );
 }
 
+const removeFromCart = async (productId) => {
+  try {
+    const res = await fetch(`http://localhost:5001/api/cart/${productId}`, {
+      method: 'DELETE',
+      credentials: 'include',
+    });
+    if (res.ok) {
+      const data = await res.json();
+      setCart(data.items || []);
+    }
+  } catch (err) {
+    console.error('Remove from cart failed:', err);
+  }
+};
 export function useCart() {
   return useContext(CartContext);
 }

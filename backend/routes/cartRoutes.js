@@ -10,6 +10,20 @@ const router = express.Router();
 
 router.get('/', requireAuth, getCart);
 router.post('/', requireAuth, addToCart);
-router.delete('/', requireAuth, clearCart);
+router.delete('/:productId', requireAuth, async (req, res) => {
+  try {
+    const cart = await Cart.findOne({ userId: req.user.id });
+    if (!cart) return res.status(404).json({ message: 'Cart not found' });
+
+    cart.items = cart.items.filter(
+      (item) => item.productId !== req.params.productId
+    );
+    await cart.save();
+
+    res.json(cart);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
 
 module.exports = router;

@@ -51,7 +51,7 @@ export default function CartPage() {
           paddingBottom: '40px',
         }}
       >
-        <h1>Shopping Cart</h1>
+        <h1 style={{ marginBottom: '50px' }}>Shopping Cart</h1>
         {cart.length === 0 ? (
           <p>Your cart is empty.</p>
         ) : (
@@ -60,14 +60,16 @@ export default function CartPage() {
               <li key={index} className='cart-items'>
                 <img src='/coffee.png' alt='coffee' />
                 <div>
-                  {item.name} - {item.quantity} x {item.price} AED
+                  <div style={{ marginBottom: '10px' }}>
+                    {item.name} - {item.quantity} x {item.price} AED
+                  </div>
+                  <button
+                    className='long primary'
+                    onClick={() => removeFromCart(item.productId)}
+                  >
+                    Remove
+                  </button>
                 </div>
-                <button
-                  className='long primary'
-                  onClick={() => removeFromCart(item.name)}
-                >
-                  Remove
-                </button>
               </li>
             ))}
           </ul>

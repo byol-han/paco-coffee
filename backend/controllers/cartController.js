@@ -15,16 +15,18 @@ exports.addToCart = async (req, res) => {
     let cart = await Cart.findOne({ userId: req.user.id });
 
     if (!cart) {
+      // 유저 장바구니가 없으면 새로 생성
       cart = new Cart({
         userId: req.user.id,
-        items: [{ productId, name, price, quantity }],
+        items: [{ productId, name, price, quantity }], // 여기
       });
     } else {
+      // 이미 장바구니가 있으면 아이템 추가
       const itemIndex = cart.items.findIndex((i) => i.productId === productId);
       if (itemIndex > -1) {
         cart.items[itemIndex].quantity += quantity;
       } else {
-        cart.items.push({ productId, name, price, quantity });
+        cart.items.push({ productId, name, price, quantity }); // 여기
       }
     }
 

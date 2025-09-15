@@ -7,6 +7,7 @@ const {
 const requireAuth = require('../middleware/requireAuth');
 
 const router = express.Router();
+const Cart = require('../models/Cart');
 
 router.get('/', requireAuth, getCart);
 router.post('/', requireAuth, addToCart);
@@ -16,7 +17,7 @@ router.delete('/:productId', requireAuth, async (req, res) => {
     if (!cart) return res.status(404).json({ message: 'Cart not found' });
 
     cart.items = cart.items.filter(
-      (item) => item.productId !== req.params.productId
+      (item) => item._id.toString() !== req.params.productId
     );
     await cart.save();
 

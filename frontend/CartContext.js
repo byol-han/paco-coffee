@@ -3,6 +3,10 @@ import { createContext, useContext, useState, useEffect } from 'react';
 
 const CartContext = createContext();
 
+export function useCart() {
+  return useContext(CartContext);
+}
+
 export function CartProvider({ children }) {
   const [cart, setCart] = useState([]);
 
@@ -55,6 +59,21 @@ export function CartProvider({ children }) {
     }
   };
 
+  const removeFromCart = async (productId) => {
+    try {
+      const res = await fetch(`http://localhost:5001/api/cart/${productId}`, {
+        method: 'DELETE',
+        credentials: 'include',
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setCart(data.items || []);
+      }
+    } catch (err) {
+      console.error('Remove from cart failed:', err);
+    }
+  };
+
   return (
     <CartContext.Provider
       value={{ cart, addToCart, clearCart, removeFromCart }}
@@ -62,22 +81,4 @@ export function CartProvider({ children }) {
       {children}
     </CartContext.Provider>
   );
-}
-
-const removeFromCart = async (productId) => {
-  try {
-    const res = await fetch(`http://localhost:5001/api/cart/${productId}`, {
-      method: 'DELETE',
-      credentials: 'include',
-    });
-    if (res.ok) {
-      const data = await res.json();
-      setCart(data.items || []);
-    }
-  } catch (err) {
-    console.error('Remove from cart failed:', err);
-  }
-};
-export function useCart() {
-  return useContext(CartContext);
 }

@@ -56,8 +56,8 @@ export default function CartPage() {
           <p>Your cart is empty.</p>
         ) : (
           <ul>
-            {cart.map((item, index) => (
-              <li key={index} className='cart-items'>
+            {cart.map((item) => (
+              <li key={item._id} className='cart-items'>
                 <img src='/coffee.png' alt='coffee' />
                 <div>
                   <div style={{ marginBottom: '10px' }}>
@@ -65,7 +65,7 @@ export default function CartPage() {
                   </div>
                   <button
                     className='long primary'
-                    onClick={() => removeFromCart(item.productId)}
+                    onClick={() => removeFromCart(item._id)}
                   >
                     Remove
                   </button>

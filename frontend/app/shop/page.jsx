@@ -73,7 +73,6 @@ export default function ShopPage() {
         </div>
       </div>
       <div className='best-sellers cont-center'>
-        <div className='best-sellers-text'></div>
         <div className='best-seller-products'>
           <ul>
             <li className='product-set'>

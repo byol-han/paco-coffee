@@ -5,6 +5,7 @@ const cors = require('cors');
 
 const cartRoutes = require('./routes/cartRoutes');
 const authRoutes = require('./routes/authRoutes'); // 로그인/회원가입
+const productRoutes = require('./routes/productRoutes');
 
 require('dotenv').config();
 
@@ -20,6 +21,7 @@ app.use(
 
 app.use('/api/auth', authRoutes);
 app.use('/api/cart', cartRoutes);
+app.use('/api/products', productRoutes);
 
 mongoose
   .connect(process.env.MONGO_URI)

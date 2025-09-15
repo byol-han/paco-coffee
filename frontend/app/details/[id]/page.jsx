@@ -1,10 +1,15 @@
 'use client';
+import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useCart } from '../../../CartContext';
 
-export default function ShopPage() {
+export default function DetailPage() {
   const [user, setUser] = useState(null);
-  const [products, setProducts] = useState([]);
+  const { id } = useParams(); // ✅ URL에서 id 가져오기
+  const [product, setProduct] = useState(null);
+  const [count, setCount] = useState(0);
+  const { addToCart } = useCart();
   const router = useRouter();
 
   useEffect(() => {
@@ -21,19 +26,18 @@ export default function ShopPage() {
       }
     };
 
-    const fetchProducts = async () => {
-      try {
-        const res = await fetch('http://localhost:5001/api/products');
+    if (!id) return;
+    const fetchProduct = async () => {
+      const res = await fetch(`http://localhost:5001/api/products/${id}`);
+      if (res.ok) {
         const data = await res.json();
-        setProducts(data); // ✅ DB에서 불러온 상품 저장
-      } catch (err) {
-        console.error('❌ Error fetching products:', err);
+        setProduct(data);
       }
     };
 
     fetchUser();
-    fetchProducts();
-  }, [router]);
+    fetchProduct();
+  }, [id]);
 
   const handleLogout = async () => {
     await fetch('http://localhost:5001/api/auth/logout', {
@@ -43,11 +47,23 @@ export default function ShopPage() {
     router.push('/login');
   };
 
+  const handleAddToCart = () => {
+    if (count === 0) return;
+    addToCart({
+      productId: product._id,
+      name: product.name,
+      price: product.price,
+      quantity: count,
+    });
+    alert('Product added to cart!');
+  };
+
   if (!user) return <div>Loading...</div>;
+  if (!product) return <div>Loading...</div>;
 
   return (
     <div>
-      <div className='shop'>
+      <div className='shop' style={{ height: 'unset' }}>
         <div className='menu cont-center'>
           <ul className='nav-left'>
             <li>
@@ -75,39 +91,41 @@ export default function ShopPage() {
             </button>
           </div>
         </div>
-        <div className='hero-text'>
-          <p className='title'>OUR PRODUCTS</p>
-          <p>
-            We source coffee from across the globe from our trusted network of
-            suppliers to bring you a selection of high-quality coffees, each
-            with own distinct flavour profile and story.
-          </p>
-        </div>
       </div>
-      <div className='best-sellers cont-center'>
-        <div className='best-seller-products'>
-          {products.length === 0 ? (
-            <p>No products available.</p>
-          ) : (
+      <div className='detail-page cont-center'>
+        <img src={product.image} alt={product.name} width={200} />
+        <div>
+          <div>
+            <p
+              style={{
+                fontSize: '24px',
+                fontWeight: 'bold',
+                marginBottom: '20px',
+              }}
+            >
+              {product.name}
+            </p>
+            <p style={{ marginBottom: '20px' }}>{product.price} CAD</p>
             <ul>
-              {products.map((item) => (
-                <li className='product-set' key={item._id}>
-                  <a href={`/details/${item._id}`}>
-                    <img src={item.image} alt={item.name} />
-                    <div className='product-info'>
-                      <p className='name'>{item.name}</p>
-                      <p>
-                        Process: {item.process} <br />
-                        {item.aroma} <br />
-                      </p>
-                      <p className='amount'>{item.amount}</p>
-                      <p className='price'>{item.price} CAD</p>
-                    </div>
-                  </a>
-                </li>
-              ))}
+              <li>Process: {product.process}</li>
+              <li>Aroma: {product.aroma}</li>
+              <li>Amount: {product.amount}</li>
             </ul>
-          )}
+          </div>
+          <div className='quantity-control'>
+            <button
+              onClick={() => setCount(count > 0 ? count - 1 : 0)}
+              disabled={count === 0}
+            >
+              -
+            </button>
+            <p>{count}</p>
+            <button onClick={() => setCount(count + 1)}>+</button>
+          </div>
+
+          <button className='long primary' onClick={handleAddToCart}>
+            Add to Cart
+          </button>
         </div>
       </div>
       <div className='footer'>

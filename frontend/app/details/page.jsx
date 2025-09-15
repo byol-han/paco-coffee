@@ -5,7 +5,9 @@ import { useCart } from '../../CartContext';
 
 export default function DetailPage() {
   const [user, setUser] = useState(null);
+  const [product, setProduct] = useState(null);
   const [count, setCount] = useState(0);
+  const { id } = useParams();
   const router = useRouter();
   const { addToCart } = useCart();
 
@@ -23,7 +25,14 @@ export default function DetailPage() {
       }
     };
 
+    const fetchProduct = async () => {
+      const res = await fetch(`http://localhost:5001/api/products/${id}`);
+      const data = await res.json();
+      setProduct(data);
+    };
+
     fetchUser();
+    fetchProduct();
   }, []);
 
   const handleLogout = async () => {
@@ -33,6 +42,7 @@ export default function DetailPage() {
     });
     router.push('/login');
   };
+
   const handleAddToCart = () => {
     if (count === 0) return;
     addToCart({
@@ -41,8 +51,11 @@ export default function DetailPage() {
       quantity: count,
     });
     // setCount(0); // 초기화
+    alert('Product added to cart!');
   };
+
   if (!user) return <div>Loading...</div>;
+  if (!product) return <div>Loading...</div>;
 
   return (
     <div>
@@ -76,7 +89,7 @@ export default function DetailPage() {
         </div>
       </div>
       <div className='detail-page cont-center'>
-        <img src='/coffee.png' alt='coffee' />
+        <img src={product.image} alt={product.name} />
         <div>
           <div>
             <p
@@ -86,17 +99,13 @@ export default function DetailPage() {
                 marginBottom: '20px',
               }}
             >
-              Colombia - Gesha Dream 250gr
+              {product.name}
             </p>
-            <p style={{ marginBottom: '20px' }}>Regular price Dhs. 95.00 AED</p>
+            <p style={{ marginBottom: '20px' }}>{product.price} CAD</p>
             <ul>
-              <li>Profile: Floral aroma, blueberry tea</li>
-              <li>Varietal: Green Tip Gesha</li>
-              <li>Process: Carbonic Maceration</li>
-              <li>Alt.: 1500masl</li>
-              <li>Roast Profile: Espresso</li>
-              <li>SCA Score: 89</li>
-              <li>Farm: El Vergel State - Tolima</li>
+              <li>Process: {product.process}</li>
+              <li>Aroma: {product.aroma}</li>
+              <li>Amount: {product.amount}</li>
             </ul>
           </div>
           <div className='quantity-control'>
